@@ -2,10 +2,10 @@ import React, { useEffect, useMemo, useState } from "react";
 import {
   LayoutDashboard, ArrowLeftRight, Wallet, HandCoins, Target, ChartNoAxesCombined,
   Bot, Settings, Search, Bell, Plus, ArrowUpRight, ArrowDownRight, MoreHorizontal,
-  CalendarDays, ChevronDown, Menu, X, LogOut, TrendingUp, TrendingDown, Sparkles,
-  CircleHelp, Check, Trash2, Pencil, CreditCard, CircleDollarSign, PiggyBank,
+  CalendarDays, ChevronDown, Menu, X, LogOut, TrendingUp, Sparkles,
+  Check, Trash2, Pencil, CreditCard, CircleDollarSign, PiggyBank,
   Utensils, CarFront, Shirt, House, GraduationCap, HeartPulse, Ticket, CircleEllipsis,
-  Laptop, Plane, ShoppingBag, BriefcaseBusiness, Send, MessageCircle, ShieldCheck,
+  Laptop, Plane, Send, ShieldCheck,
   Eye, EyeOff, ChevronRight, Filter, Download, RotateCcw, WalletCards
 } from "lucide-react";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from "recharts";
@@ -22,12 +22,6 @@ const dateLabel = (d) => new Date(d + "T00:00:00").toLocaleDateString("uz-UZ", {
 const today = () => new Date().toISOString().slice(0,10);
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 const readJSON = (key, fallback) => { try { const value = localStorage.getItem(key); return value ? JSON.parse(value) : fallback; } catch { return fallback; } };
-const Icon = ({ name, size=18, ...props }) => {
-  const icons = { Utensils, CarFront, Shirt, House, GraduationCap, HeartPulse, Ticket, CircleEllipsis, Laptop, Plane };
-  const Comp = icons[name] || CircleDollarSign;
-  return <Comp size={size} strokeWidth={1.8} {...props} />;
-};
-
 function Auth({ onLogin }) {
   const [mode, setMode] = useState("register");
   const [login, setLogin] = useState("");
@@ -106,7 +100,6 @@ function App() {
   useEffect(()=>{ localStorage.setItem(STORAGE_KEY,JSON.stringify(data)); },[data]);
   useEffect(()=>{ if(toast){const t=setTimeout(()=>setToast(""),2800);return()=>clearTimeout(t);} },[toast]);
   const update = (key, value) => setData(prev=>({...prev,[key]:value}));
-  const addItem = (key,item) => { update(key,[{...item,id:uid()},...data[key]]); setModal(null);setEditing(null);setToast("Ma’lumot muvaffaqiyatli saqlandi"); };
   const saveItem = (key,item) => {
     if(editing) update(key,data[key].map(x=>x.id===editing.id?{...item,id:editing.id}:x));
     else update(key,[{...item,id:uid()},...data[key]]);
